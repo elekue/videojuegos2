@@ -1,12 +1,16 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Participacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // usuarios (jugador)
 
 class ParticipacionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // Mostrar todas las participaciones
     public function index()
     {
@@ -17,24 +21,37 @@ class ParticipacionController extends Controller
     // Mostrar el formulario para crear una nueva participación
     public function create()
     {
-        return view('participaciones.create');
+        $campeonatos = \App\Models\Campeonato::all();
+        return view('participaciones.create', compact('campeonatos'));
     }
 
     // Guardar la nueva participación en la base de datos
     public function store(Request $request)
     {
-        // Aquí validamos y guardamos
-        $validated = $request->validate([
+        $request->validate([
             'campeonato_id' => 'required|exists:campeonatos,id',
-            'jugador_id' => 'required|exists:jugadores,id',
-            'anio' => 'required|integer',
-            'puesto' => 'required|integer',
-            'premio' => 'nullable|numeric',
         ]);
 
-        Participacion::create($validated);
+        $jugador = Auth::user(); // Jugador autenticado
 
-        return redirect()->route('participaciones.index')->with('success', 'Participación creada correctamente.');
+        // Verifica si ya está inscrito
+        $yaExiste = Participacion::where('jugador_id', $jugador->id)
+            ->where('campeonato_id', $request->campeonato_id)
+            ->exists();
+
+        if ($yaExiste) {
+            return back()->with('error', 'Ya estás inscrito en este campeonato.');
+        }
+
+        Participacion::create([
+            'jugador_id' => $jugador->id,
+            'campeonato_id' => $request->campeonato_id,
+            'anio' => now()->year,
+            'puesto' => 0,
+            'premio' => null,
+        ]);
+
+        return redirect()->route('participaciones.index')->with('success', 'Te has inscrito correctamente.');
     }
 
     // Mostrar una participación específica
@@ -52,15 +69,22 @@ class ParticipacionController extends Controller
     // Actualizar la participación en la base de datos
     public function update(Request $request, Participacion $participacion)
     {
-        $validated = $request->validate([
+        /*$validated = $request->validate([
             'campeonato_id' => 'required|exists:campeonatos,id',
             'jugador_id' => 'required|exists:jugadores,id',
             'anio' => 'required|integer',
             'puesto' => 'required|integer',
             'premio' => 'nullable|numeric',
-        ]);
+        ]);*/
 
-        $participacion->update($validated);
+        $data = $request->only(['campeonato_id', 'user_id']);
+
+        if (auth()->user()->isAdmin()) {
+            $data['puntos'] = $request->input('puntos');
+            $data['premio'] = $request->input('premio');
+        }
+    
+        $participacion->update($data);
 
         return redirect()->route('participaciones.index')->with('success', 'Participación actualizada correctamente.');
     }
