@@ -34,8 +34,8 @@
                         {{--<th>Fecha de inicio</th>
                         <th>Fecha de fin</th>--}}
                         <th>Localidad</th>
-                        <th>Tipo</th>
-                        <th>Normas</th>
+                        {{--<th>Tipo</th>
+                        <th>Normas</th>--}}
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -46,8 +46,8 @@
                             {{--<td>{{ $campeonato->fecha_comienzo }}</td>
                             <td>{{ $campeonato->fechaFin }}</td>--}}
                             <td>{{ $campeonato->localidad }}</td>
-                            <td>{{ $campeonato->tipo }}</td>
-                            <td>{{ $campeonato->normas }}</td>
+                            {{--<td>{{ $campeonato->tipo }}</td>
+                            <td>{{ $campeonato->normas }}</td>--}}
                             <td>
                                 <a href="{{ route('campeonatos.show', $campeonato) }}">Ver</a> |
                             
@@ -59,19 +59,20 @@
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
                                     </form>
-                                @endif
+                               
                             
                                 @auth
                                 
                                         <form action="{{ route('participaciones.store') }}" method="POST" style="display:inline;">
                                             @csrf
                                             <input type="hidden" name="campeonato_id" value="{{ $campeonato->id }}">
-                                            <button type="submit">Apuntarse</button>
+                                            {{--<button type="submit">Apuntarse</button>--}}
                                         </form>
                                     
                                 @else
                                     <a href="{{ route('login') }}">Identificarse</a>
                                 @endauth
+                                @endif
                             </td>
                         </tr>
                     @endforeach

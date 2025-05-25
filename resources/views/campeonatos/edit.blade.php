@@ -1,33 +1,40 @@
-<form method="POST" action="{{ route('participaciones.update', $participacion->id) }}">
-    @csrf
-    @method('PUT')
+@extends('layouts.app')
 
-    <label for="campeonato_id">Campeonato:</label>
-    <select name="campeonato_id">
-        @foreach ($campeonatos as $camp)
-            <option value="{{ $camp->id }}" {{ $camp->id == $participacion->campeonato_id ? 'selected' : '' }}>
-                {{ $camp->nombre }}
-            </option>
-        @endforeach
-    </select>
+@section('content')
+    <h1>Editar Campeonato</h1>
 
-    <label for="user_id">Jugador:</label>
-    <select name="user_id">
-        @foreach ($jugadores as $jug)
-            <option value="{{ $jug->id }}" {{ $jug->id == $participacion->user_id ? 'selected' : '' }}>
-                {{ $jug->name }}
-            </option>
-        @endforeach
-    </select>
+    <form method="POST" action="{{ route('campeonatos.update', $campeonato->id) }}">
+        @csrf
+        @method('PUT')
 
-    {{-- Solo si es admin, mostramos puntos y premio --}}
-    @if(auth()->user() && auth()->user()->isAdmin())
-        <label for="puntos">Puntos:</label>
-        <input type="number" name="puntos" value="{{ old('puntos', $participacion->puntos) }}">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $campeonato->nombre) }}"><br><br>
 
-        <label for="premio">Premio:</label>
-        <input type="text" name="premio" value="{{ old('premio', $participacion->premio) }}">
-    @endif
+        <label for="localidad">Localidad:</label><br>
+<input type="text" name="localidad" id="localidad" value="{{ old('localidad', $campeonato->localidad) }}"><br><br>
 
-    <button type="submit">Actualizar</button>
-</form>
+        <label for="fecha_inicio">Fecha de inicio:</label><br>
+        <input type="date" name="fecha_inicio" id="fecha_inicio" 
+        value="{{ old('fecha_inicio', $campeonato->fecha_inicio ? $campeonato->fecha_inicio->format('Y-m-d') : '') }}"><br><br>
+
+        <label for="fecha_fin">Fecha de fin:</label><br>
+        <input type="date" name="fecha_fin" id="fecha_fin"
+        value="{{ old('fecha_fin', $campeonato->fecha_fin ? $campeonato->fecha_fin->format('Y-m-d') : '') }}"><br><br>
+
+        @if(auth()->check() && auth()->user()->isAdmin())
+            <label for="premio">Premio:</label><br>
+            <input type="number" name="premio" id="premio" value="{{ old('premio') }}"><br><br>
+         @endif
+        <label for="tipo">Tipo:</label><br>
+        <select name="tipo" id="tipo">
+            <option value="individual" {{ old('tipo', $campeonato->tipo) == 'individual' ? 'selected' : '' }}>Individual</option>
+            <option value="equipo" {{ old('tipo', $campeonato->tipo) == 'equipo' ? 'selected' : '' }}>Equipo</option>
+            <option value="mixto" {{ old('tipo', $campeonato->tipo) == 'mixto' ? 'selected' : '' }}>Mixto</option>
+        </select><br><br>
+
+        <label for="normas">Normas:</label><br>
+        <textarea name="normas" id="normas">{{ old('normas', $campeonato->normas) }}</textarea><br><br>
+
+        <button type="submit">Actualizar Campeonato</button>
+    </form>
+@endsection

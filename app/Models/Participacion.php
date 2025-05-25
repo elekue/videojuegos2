@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Participacion extends Model
 {
+    protected $table = 'participaciones'; // <- ahora coincide con la tabla real 
     protected $fillable = [
         'campeonato_id',
         'jugador_id',

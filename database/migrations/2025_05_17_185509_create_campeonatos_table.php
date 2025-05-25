@@ -13,6 +13,9 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('localidad');
             $table->enum('tipo', ['individual', 'equipo', 'mixto']);
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_fin')->nullable();
+            $table->decimal('premio', 8, 2)->nullable();
             $table->text('normas')->nullable();
             $table->timestamps();
         });

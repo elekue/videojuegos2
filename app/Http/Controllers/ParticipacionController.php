@@ -19,7 +19,7 @@ class ParticipacionController extends Controller
     }
 
     // Mostrar el formulario para crear una nueva participación
-    public function create()
+   /* public function create()
     {
         $campeonatos = \App\Models\Campeonato::all();
         return view('participaciones.create', compact('campeonatos'));
@@ -28,31 +28,37 @@ class ParticipacionController extends Controller
     // Guardar la nueva participación en la base de datos
     public function store(Request $request)
     {
+
+
         $request->validate([
             'campeonato_id' => 'required|exists:campeonatos,id',
         ]);
 
         $jugador = Auth::user(); // Jugador autenticado
 
-        // Verifica si ya está inscrito
-        $yaExiste = Participacion::where('jugador_id', $jugador->id)
-            ->where('campeonato_id', $request->campeonato_id)
+        // ****************Verificar si ya está inscrito**********************
+
+        $campeonatoId = $request->campeonato_id;
+
+        $yaInscrito = Participacion::where('campeonato_id', $campeonatoId)
+            ->where('jugador_id', $jugador->id)
             ->exists();
 
-        if ($yaExiste) {
-            return back()->with('error', 'Ya estás inscrito en este campeonato.');
-        }
+        if ($yaInscrito) {
+        return redirect()->back()->with('error', 'Ya estás inscrito en este campeonato.');
+        }   
+        //**************************************************************************** */
 
-        Participacion::create([
+       /* Participacion::create([
             'jugador_id' => $jugador->id,
             'campeonato_id' => $request->campeonato_id,
             'anio' => now()->year,
-            'puesto' => 0,
-            'premio' => null,
+            'puesto' => 90,
+            'premio' => 33,
         ]);
 
         return redirect()->route('participaciones.index')->with('success', 'Te has inscrito correctamente.');
-    }
+    }*/
 
     // Mostrar una participación específica
     public function show(Participacion $participacion)
@@ -61,33 +67,57 @@ class ParticipacionController extends Controller
     }
 
     // Mostrar el formulario para editar una participación
-    public function edit(Participacion $participacion)
+    /*public function edit(Participacion $participacion)
     {
         return view('participaciones.edit', compact('participacion'));
-    }
+    }*/
 
     // Actualizar la participación en la base de datos
-    public function update(Request $request, Participacion $participacion)
+    /*public function update(Request $request, Participacion $participacion)
     {
-        /*$validated = $request->validate([
-            'campeonato_id' => 'required|exists:campeonatos,id',
-            'jugador_id' => 'required|exists:jugadores,id',
-            'anio' => 'required|integer',
-            'puesto' => 'required|integer',
-            'premio' => 'nullable|numeric',
-        ]);*/
-
-        $data = $request->only(['campeonato_id', 'user_id']);
+        
 
         if (auth()->user()->isAdmin()) {
-            $data['puntos'] = $request->input('puntos');
-            $data['premio'] = $request->input('premio');
-        }
+            $request->validate([
+                'puesto' => 'required|integer|min:1',
+            ]);
+            $participacion->update([
+                'puesto' => $request->puesto,
+            ]);
+        
+        }*/
+        public function update(Request $request, Participacion $participacion)
+        {
+            if (!auth()->user()->isAdmin()) {
+                abort(403, 'No autorizado');
+            }
+        
+            $request->validate([
+                'puesto' => 'required|integer|min:1',
+                'premio' => 'nullable|numeric|min:0',
+            ]);
+        
+            $participacion->update([
+                'puesto' => $request->puesto,
+                'premio' => $request->premio,
+            ]);
     
-        $participacion->update($data);
-
         return redirect()->route('participaciones.index')->with('success', 'Participación actualizada correctamente.');
     }
+         
+        
+
+        
+
+
+        // Modificar puesto y premio
+
+        public function edit(Participacion $participacion)
+        {
+            // Si quieres, chequear que sea admin aquí
+        
+            return view('participaciones.edit', compact('participacion'));
+        }
 
     // Eliminar una participación
     public function destroy(Participacion $participacion)

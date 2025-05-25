@@ -37,9 +37,20 @@ class CampeonatoController extends Controller
             'localidad' => 'required|string|max:255',
             'tipo' => 'required|in:individual,equipo,mixto',
             'normas' => 'nullable|string',
+            'fecha_inicio' => 'required|date',
+            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+            'premio' => 'nullable|numeric|min:0',
         ]);
 
-        Campeonato::create($request->all());
+        \App\Models\Campeonato::create([
+            'nombre' => $request->nombre,
+            'localidad' => $request->localidad,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_fin' => $request->fecha_fin,
+            'premio' => $request->premio,
+            'tipo' => $request->tipo,
+            'normas' => $request->normas,
+        ]);
 
         return redirect()->route('campeonatos.index')->with('success', 'Campeonato creado correctamente.');
     }
@@ -53,29 +64,42 @@ class CampeonatoController extends Controller
     // Mostrar formulario para editar campeonato
     public function edit(Campeonato $campeonato)
     {
-        if (!auth()->user()->isAdmin()) {
-            abort(403, 'No autorizado');
-        }
-        else return view('campeonatos.edit', compact('campeonato'));
+       
+         return view('campeonatos.edit', compact('campeonato'));
     }
 
     // Actualizar campeonato
     public function update(Request $request, Campeonato $campeonato)
-    {
-       /* $request->validate([
-            'nombre' => 'required|string|max:255',
-            'localidad' => 'required|string|max:255',
-            'tipo' => 'required|in:individual,equipo,mixto',
-            'normas' => 'nullable|string',
-        ]);*/
-        if (!auth()->user()->isAdmin()) {
-            abort(403, 'No autorizado');}
-        else
-        $campeonato->update($request->all());
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'localidad' => 'required|string|max:255',
+        'fecha_inicio' => 'required|date',
+        'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+        'normas' => 'nullable|string',
+        'tipo' => 'required|in:individual,equipo,mixto',
+    ]);
 
-        return redirect()->route('campeonatos.index')->with('success', 'Campeonato actualizado correctamente.');
-    }
+    $datos = [
+        'nombre' => $request->nombre,
+        'localidad' => $request->localidad,
+        'fecha_inicio' => $request->fecha_inicio,
+        'fecha_fin' => $request->fecha_fin,
+        'tipo' => $request->tipo,
+        'normas' => $request->normas,
+    ];
 
+    if (auth()->user()->isAdmin()) {
+    $request->validate([ 'premio' => 'nullable|numeric|min:0',]);
+        $datos['premio'] = $request->premio; 
+    
+   
+}
+
+    $campeonato->update($datos);
+
+    return redirect()->route('campeonatos.index')->with('success', 'Campeonato actualizado correctamente.');
+}
     // Eliminar campeonato
     public function destroy(Campeonato $campeonato)
     {

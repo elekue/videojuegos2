@@ -13,11 +13,15 @@ Route::post('/logout', [AuthSimpleController::class, 'logout'])->name('logout');
 
 Route::resource('campeonatos', CampeonatoController::class);//la autenticacion mediante atributos en CampeonatoController
 
-Route::resource('participaciones', ParticipacionController::class);
-    //->only(['index', 'show']);
-
 Route::resource('jugadores', JugadorController::class);
    // ->only(['index', 'show']);
+   
+//Route::resource('participaciones', ParticipacionController::class);
+    //->only(['index', 'show']);
+
+    Route::resource('participaciones', ParticipacionController::class)->parameters([
+        'participaciones' => 'participacion'
+    ]);
 
 Route::get('/', function () {
     return view('welcome');

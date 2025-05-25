@@ -8,7 +8,11 @@ class Campeonato extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'localidad', 'tipo', 'normas'];
+    protected $fillable = ['nombre', 'localidad', 'fecha_inicio', 'fecha_fin', 'premio', 'tipo', 'normas',];
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_fin' => 'date',
+    ];
 
     public function participaciones()
     {

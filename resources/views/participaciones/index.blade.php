@@ -3,6 +3,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <h1>Listado de Participaciones</h1>
 
     @if(session('success'))
@@ -14,27 +15,36 @@
     @if($participaciones->isEmpty())
         <p>No hay participaciones aún.</p>
     @else
-        <table border="1" cellpadding="8" cellspacing="0">
+        <table>
             <thead>
                 <tr>
-                    <th>Jugador</th>
                     <th>Campeonato</th>
-                    <th>Año</th>
+                    <th>Jugador</th>
                     <th>Puesto</th>
                     <th>Premio</th>
+                    @if(auth()->user()->isAdmin())
+                        <th>Acciones</th>
+                    @endif
                 </tr>
             </thead>
+
             <tbody>
-                @foreach($participaciones as $participacion)
+                @foreach ($participaciones as $participacion)
                     <tr>
-                        <td>{{ $participacion->jugador->nombre ?? 'Sin jugador' }}</td>
-                        <td>{{ $participacion->campeonato->nombre ?? 'Sin campeonato' }}</td>
-                        <td>{{ $participacion->anio }}</td>
-                        <td>{{ $participacion->puesto }}</td>
-                        <td>{{ $participacion->premio ?? 'N/A' }}</td>
+                        <td>{{ $participacion->campeonato->nombre }}</td>
+                        <td>{{ $participacion->jugador->nick }}</td>
+                        <td>{{ $participacion->puesto ?? '-' }}</td>
+                        <td>{{ $participacion->premio ?? '-' }} €</td>
+                        
+                        @if(auth()->user()->isAdmin())
+                            <td>
+                                <a href="{{ route('participaciones.edit', $participacion->id) }}">Editar</a>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
     @endif
-@endsection
+
+@endsect
