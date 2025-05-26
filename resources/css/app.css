@@ -1,0 +1,246 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1e1e2f;
+    color: #ddd;
+}
+
+
+/* Header */
+header {
+    background-color: #004085;
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Navegación principal (nav con ul horizontal) */
+
+nav {
+    display:flex;
+    background-color: #333;
+    padding: 0 1rem;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+    gap:1.5 rem;
+
+}
+
+nav ul li {
+    margin: 0; /* el gap ya separa */
+}
+
+nav .user-controls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* separación mayor */
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+nav .user-controls button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    font: inherit;
+    transition: color 0.3s;
+}
+
+nav ul li {
+    margin-right: 1.5rem;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3;
+    border-radius: 4px;
+}
+
+/* Cerrar sesión a la derecha */
+nav .logout {
+    margin-left: auto;
+}
+
+nav .logout a {
+    color: white;
+    font-weight: bold;
+    padding: 0.75rem 1rem;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+nav .logout a:hover {
+    background-color: #b30000; /* rojo oscuro */
+    border-radius: 4px;
+}
+
+/* Main content */
+main {
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: #2c2c3c;
+    padding: 2rem;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+}
+
+/* Tarjetas para campeonatos (reemplaza las tablas/listas) */
+.campeonato-card {
+    background-color: #2c2c3c;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #444;
+    color: #eee;
+}
+
+.campeonato-card h3 {
+    color: #70b7ff;
+}
+
+/* Grid para campeonatos en dos columnas */
+.campeonatos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Contenedor para botón de crear campeonato */
+.crear-campeonato {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+/* Botón crear (morado) */
+.btn-crear {
+    background-color: #7e3e99;
+}
+
+.btn-crear:hover {
+    background-color: #6c3483;
+}
+
+/* Botones estilo moderno */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none;
+    margin-right: 0.5rem;
+}
+
+/* Botón eliminar (rojo) */
+.btn-eliminar {
+    background-color: #d0443c;
+}
+
+.btn-eliminar:hover {
+    background-color: #a33229;
+}
+
+/* Botón editar (azul) */
+.btn-editar {
+    background-color: #4a90e2;
+}
+
+.btn-editar:hover {
+    background-color: #357ab8;
+}
+
+/* Botón ver (verde) */
+.btn-ver {
+    background-color: #27a865;
+}
+
+.btn-ver:hover {
+    background-color: #1f8650;
+}
+
+/* Botón volver (gris) */
+.btn-volver:hover {
+    background-color: #4a4f52;
+}
+
+.btn-volver:hover {
+    background-color: #606b6e;
+}
+
+/* Contenedor botones */
+.botones-campeonato {
+    margin-top: 1rem;
+}
+
+/***Listado de jugadore******/
+.jugadores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.jugador-card {
+    background-color: #2c2c3c;
+    border: 1px solid #444;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 1.2rem 1.5rem;
+    color: #eee;
+    transition: transform 0.2s;
+}
+
+.jugador-card:hover {
+    transform: translateY(-4px);
+}
+
+
+
+.jugador-card h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #70b7ff;
+    margin-bottom: 1rem;
+}
+
+.jugador-card p {
+    margin: 0.4rem 0;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+/* Footer */
+footer {
+    background-color: #222;
+    color: #ccc;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+}

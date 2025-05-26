@@ -3,19 +3,19 @@
 @section('title', 'Detalle del Campeonato')
 
 @section('content')
-<div class="container">
-    <h1>{{ $campeonato->nombre }}</h1>
+<div class="campeonato-card">
+    <h3>{{ $campeonato->nombre }}</h3>
 
-    <ul>
-        <li><strong>Localidad:</strong> {{ $campeonato->localidad }}</li>
-        <li><strong>Tipo:</strong> {{ $campeonato->tipo }}</li>
-        <li><strong>Normas:</strong> {{ $campeonato->normas }}</li>
-        <li><strong>Comienzo:</strong> {{ $campeonato->fecha_comienzo }}</li>
-        <li><strong>Fin:</strong> {{ $campeonato->fechaFin }}</li>
-        <li><strong>Tipo:</strong> {{ ucfirst($campeonato->tipo) }}</li>
-        <li><strong>Premio:</strong> {{ $campeonato->premio }}</li>
-       <li><strong>Normas:</strong> {{ $campeonato->normas }}</li>
-    </ul>
+  
+        <p><strong>Localidad:</strong> {{ $campeonato->localidad }}</p>
+         <p><strong>Tipo:</strong> {{ $campeonato->tipo }}</p>
+        <p><strong>Normas:</strong> {{ $campeonato->normas }}</p>
+        <p><strong>Comienzo:</strong> {{ $campeonato->fecha_comienzo }}</p>
+        <p><strong>Fin:</strong> {{ $campeonato->fechaFin }}</p>
+        <p><strong>Tipo:</strong> {{ ucfirst($campeonato->tipo) }}</p>
+        <p><strong>Premio:</strong> {{ $campeonato->premio }}</p>
+        <p><strong>Normas:</strong> {{ $campeonato->normas }}</p>
+   
 
     
    {{-- Mostrar mensajes de sesión --}}
@@ -29,7 +29,7 @@
 
 {{-- Botón para apuntarse si está autenticado y no es admin --}}
     @auth
-        @if(!Auth::user()->isAdmin())
+        @if(!Auth::user()->es_admin)
         @if(session('error'))
     <div style="color: red">{{ session('error') }}</div>
 @endif
@@ -42,7 +42,7 @@
     @endauth
 
     {{-- Botones para admins --}}
-    @if(Auth::check() && Auth::user()->isAdmin())
+    @if(Auth::check() && Auth::user()->es_admin)
         <a href="{{ route('campeonatos.edit', $campeonato) }}">Editar</a>
 
         <form action="{{ route('campeonatos.destroy', $campeonato) }}" method="POST" style="display:inline;">

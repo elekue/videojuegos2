@@ -14,7 +14,14 @@ class ParticipacionController extends Controller
     // Mostrar todas las participaciones
     public function index()
     {
-        $participaciones = Participacion::all();
+        //$participaciones = Participacion::all();
+        
+        $participaciones = Participacion::join('campeonatos', 'participaciones.campeonato_id', '=', 'campeonatos.id')
+        ->select('participaciones.*', 'campeonatos.nombre as campeonato_nombre')
+        ->orderBy('campeonatos.nombre')
+        ->orderBy('participaciones.puesto')
+        ->get();
+
         return view('participaciones.index', compact('participaciones'));
     }
 
@@ -118,6 +125,31 @@ class ParticipacionController extends Controller
         
             return view('participaciones.edit', compact('participacion'));
         }
+
+        public function store(Request $request)
+        {
+            // Validar si el usuario ya está apuntado (opcional)
+            $user = auth()->user();
+            $campeonatoId = $request->input('campeonato_id');
+        
+            // Evitar duplicados (opcional pero recomendable)
+            $existe = \App\Models\Participacion::where('user_id', $user->id)
+                ->where('campeonato_id', $campeonatoId)
+                ->exists();
+        
+            if ($existe) {
+                return redirect()->back()->with('error', 'Ya estás apuntado a este campeonato.');
+            }
+        
+            // Guardar la participación
+            \App\Models\Participacion::create([
+                'user_id' => $user->id,
+                'campeonato_id' => $campeonatoId,
+            ]);
+        
+            return redirect()->back()->with('success', 'Te has apuntado al campeonato.');
+        }
+
 
     // Eliminar una participación
     public function destroy(Participacion $participacion)

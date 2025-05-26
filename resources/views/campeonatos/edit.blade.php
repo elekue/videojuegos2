@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Editar Campeonato</h1>
-
+    <div class="campeonato-card">
     <form method="POST" action="{{ route('campeonatos.update', $campeonato->id) }}">
         @csrf
         @method('PUT')
@@ -37,4 +37,5 @@
 
         <button type="submit">Actualizar Campeonato</button>
     </form>
+    </div>
 @endsection

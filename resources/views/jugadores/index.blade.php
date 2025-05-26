@@ -2,9 +2,13 @@
 
 @section('content')
     <h1>Listado de Jugadores</h1>
-    <ul>
+    <div class="jugadores-grid">
+    
         @foreach($jugadores as $jugador)
-            <li>{{ $jugador->nick }} - {{ $jugador->correo }}</li>
+        <div class="jugador-card"> {{-- <-- cada tarjeta --}}
+            <h3>{{ $jugador->nick }}  </h3>
+            <h4>{{ $jugador->email }}</h4>
+        </div>
         @endforeach
-    </ul>
+    </div>
 @endsection

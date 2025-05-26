@@ -9,7 +9,7 @@ class JugadorController extends Controller
     public function index()
     {
         // Aquí mostrarás la lista de jugadores
-        $jugadores = Jugador::all();
+        $jugadores = Jugador::orderBy('nick')->get();
         return view('jugadores.index', compact('jugadores'));
     }
 

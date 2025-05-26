@@ -28,7 +28,7 @@
 
         <label for="fecha_fin">Fecha de fin:</label><br>
         <input type="date" name="fecha_fin" id="fecha_fin" value="{{ old('fecha_fin') }}"><br><br>
-        @if(auth()->check() && auth()->user()->isAdmin())
+        @if(auth()->check() && auth()->user()->is_Admin)
             <label for="premio">Premio:</label><br>
             <input type="number" name="premio" id="premio" value="{{ old('premio') }}"><br><br>
          @endif
