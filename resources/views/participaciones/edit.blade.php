@@ -28,12 +28,15 @@
 
         <div>
             <label for="premio">Premio (€):</label>
-            <input type="number" step="0.01" name="premio" id="premio" value="{{ old('premio', $participacion->premio) }}">
-            @error('premio')
-                <div style="color: red;">{{ $message }}</div>
-            @enderror
+         {{--esto no funciona si no existe --}}  
+        {{--<p>{{ $participacion->campeonato->premio }} €</p>--}}
+       
+        @if($participacion->campeonato)
+            <p>Premio: {{ $participacion->campeonato->premio }} €</p>
+        @else
+            <p>Premio: sin concretar</p>
+        @endif
         </div>
-
         <button type="submit">Guardar Cambios</button>
     </form>
     <a href="{{ route('participaciones.index') }}">Volver al listado</a>

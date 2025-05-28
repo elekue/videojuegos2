@@ -22,7 +22,7 @@
                         <p>Campeonato: {{ $participacion->campeonato->nombre }}</td>
                         <p>nick: {{ $participacion->jugador->nick }}</td>
                         <p>Puesto: {{ $participacion->puesto ?? '-' }}</td>
-                        <p>Premio: {{ $participacion->premio ?? '-' }} €</td>
+                            <p>Premio: {{ $participacion->campeonato->premio ?? '-' }} €</p>
                         
                         @if(auth()->user()->isAdmin())
                             

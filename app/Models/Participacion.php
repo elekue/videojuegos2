@@ -12,7 +12,6 @@ class Participacion extends Model
         'jugador_id',
         'anio',
         'puesto',
-        'premio',
     ];
 
     public function campeonato()

@@ -20,6 +20,7 @@ class CampeonatoController extends Controller
     public function index()
     {
         $campeonatos = Campeonato::all();
+        //$campeonatos = Campeonato::paginate(4);
         return view('campeonatos.index', compact('campeonatos'));
     }
 
@@ -89,7 +90,7 @@ class CampeonatoController extends Controller
         'normas' => $request->normas,
     ];
 
-    if (auth()->user()->isAdmin()) {
+    if (auth()->user()->es_admin) {
     $request->validate([ 'premio' => 'nullable|numeric|min:0',]);
         $datos['premio'] = $request->premio; 
     

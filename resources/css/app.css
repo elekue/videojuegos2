@@ -93,7 +93,45 @@ nav .logout a:hover {
     background-color: #b30000; /* rojo oscuro */
     border-radius: 4px;
 }
+/* Ajustes para el contenedor de usuario en el nav */
+nav .user-controls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* un poco más espacio */
+    color: #70b7ff; /* tono azul más claro para destacar */
+    font-weight: 600;
+    font-size: 1rem;
+}
 
+/* Botón cerrar sesión como enlace */
+nav .user-controls button {
+    background: none;
+    border: none;
+    color: #70b7ff; /* mismo color que texto */
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    font: inherit;
+    transition: color 0.3s ease;
+}
+
+nav .user-controls button:hover {
+    color: #a0c8ff; /* color más claro al pasar el mouse */
+}
+
+/* Link para Login con mismo estilo */
+nav .user-controls a {
+    color: #70b7ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+nav .user-controls a:hover {
+    color: #a0c8ff;
+    text-decoration: underline;
+}
 /* Main content */
 main {
     max-width: 900px;
@@ -235,6 +273,30 @@ main {
     font-size: 0.9rem;
     color: #ccc;
 }
+
+.participaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.pagination {
+    font-size: 0.9rem !important;
+  }
+  
+  .pagination .page-link {
+    font-size: 0.9rem !important;
+    padding: 0.3rem 0.6rem !important;
+  }
+  
+  .pagination .page-link svg {
+    width: 1em !important;
+    height: 1em !important;
+    vertical-align: middle !important;
+  }
+
+
 /* Footer */
 footer {
     background-color: #222;

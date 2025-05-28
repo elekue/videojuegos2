@@ -5,16 +5,16 @@
 @section('content')
     <div class="container">
         {{-- Bloque de login/logout --}}
-        @if(Auth::check())
+        {{--@if(Auth::check())
             <p>Hola, {{ Auth::user()->nombre }} 
                 {{--<form action="{{ route('logout') }}" method="POST" style="display:inline;">
                     @csrf
                     <button type="submit">Cerrar sesión</button>
-                </form>--}}
+                </form>-
             </p>
         @else
             <a href="{{ route('login') }}">Identificarse</a>
-        @endif
+        @endif--}}
 
         <h1>Campeonatos</h1>
 
@@ -37,7 +37,7 @@
                             <a href="{{ route('campeonatos.show', $campeonato) }}" class="btn btn-ver">Ver</a>
 
                             @if(Auth::check() && Auth::user()->es_admin)
-                                | <a href="{{ route('campeonatos.edit', $campeonato) }}" class="btn btn-editar">Editar</a> |
+                                 <a href="{{ route('campeonatos.edit', $campeonato) }}" class="btn btn-editar">Editar</a> 
 
                                 <form action="{{ route('campeonatos.destroy', $campeonato) }}" method="POST" style="display:inline">
                                     @csrf
@@ -46,7 +46,7 @@
                                 </form>
                             @endif
 
-                            @auth
+                            {{--@auth
                             @if(!auth()->user()->es_admin)
                                 <form action="{{ route('participaciones.store') }}" method="POST" style="display:inline;">
                                     @csrf
@@ -54,7 +54,10 @@
                                     <button type="submit" class="btn btn-ver">Apuntarse</button>
                                 </form>
                                 @endif
-                            @endauth
+                            @endauth--}
+                            <div class="d-flex justify-content-center my-3">
+                                {{--{{ $campeonatos->links() }}--}}
+                            </div>
                         </div>
                     </div>
                 @endforeach
